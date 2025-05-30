@@ -1,25 +1,3 @@
-import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import { Testimonial } from '@/types';
-import AdminLayout from '@/layouts/AdminLayout';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from '@/components/ui/table';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -29,18 +7,19 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import {
-    Plus,
-    Pencil,
-    Trash,
-    MoreVertical,
-    ArrowUp,
-    ArrowDown,
-    Star
-} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Switch } from '@/components/ui/switch';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/use-toast';
+import AdminLayout from '@/layouts/AdminLayout';
+import { Testimonial } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowDown, ArrowUp, MoreVertical, Pencil, Plus, Star, Trash } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface Props {
     testimonials: Testimonial[];
@@ -53,23 +32,29 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
     const { toast } = useToast();
 
     const handleToggleActive = (testimonial: Testimonial) => {
-        router.patch(route('settings.testimonials.toggle-active', testimonial.id), {}, {
-            preserveScroll: true,
-            onSuccess: () => {
-                toast({
-                    title: "Status Updated",
-                    description: `Testimonial from ${testimonial.name} has been ${testimonial.is_active ? 'deactivated' : 'activated'}.`,
-                    variant: "default",
-                });
+        router.patch(
+            route('settings.testimonials.toggle-active', testimonial.id),
+            {},
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast({
+                        title: 'Status Updated',
+                        description: `Testimonial from ${testimonial.name} has been ${testimonial.is_active ? 'deactivated' : 'activated'}.`,
+                        variant: 'success',
+                        duration: 5000,
+                    });
+                },
+                onError: () => {
+                    toast({
+                        title: 'Error',
+                        description: 'Failed to update testimonial status. Please try again.',
+                        variant: 'destructive',
+                        duration: 5000,
+                    });
+                },
             },
-            onError: () => {
-                toast({
-                    title: "Error",
-                    description: "Failed to update testimonial status. Please try again.",
-                    variant: "destructive",
-                });
-            }
-        });
+        );
     };
 
     const handleDelete = () => {
@@ -80,28 +65,26 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                 onSuccess: () => {
                     setTestimonialToDelete(null);
                     toast({
-                        title: "Testimonial Deleted",
+                        title: 'Testimonial Deleted',
                         description: `Testimonial from ${testimonialName} has been deleted.`,
-                        variant: "default",
+                        variant: 'success',
+                        duration: 5000,
                     });
                 },
                 onError: () => {
                     toast({
-                        title: "Error",
-                        description: "Failed to delete testimonial. Please try again.",
-                        variant: "destructive",
+                        title: 'Error',
+                        description: 'Failed to delete testimonial. Please try again.',
+                        variant: 'destructive',
                     });
-                }
+                },
             });
         }
     };
 
     const moveTestimonial = (id: number, direction: 'up' | 'down') => {
-        const currentIndex = reorderedTestimonials.findIndex(t => t.id === id);
-        if (
-            (direction === 'up' && currentIndex === 0) ||
-            (direction === 'down' && currentIndex === reorderedTestimonials.length - 1)
-        ) {
+        const currentIndex = reorderedTestimonials.findIndex((t) => t.id === id);
+        if ((direction === 'up' && currentIndex === 0) || (direction === 'down' && currentIndex === reorderedTestimonials.length - 1)) {
             return;
         }
 
@@ -117,32 +100,36 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
     const saveReordering = () => {
         const reorderedData = reorderedTestimonials.map((testimonial, index) => ({
             id: testimonial.id,
-            order: index
+            order: index,
         }));
 
-        router.post(route('settings.testimonials.reorder'), {
-            testimonials: reorderedData
-        }, {
-            preserveScroll: true,
-            onSuccess: () => {
-                setIsReordering(false);
-                toast({
-                    title: "Order Updated",
-                    description: "Testimonials have been reordered successfully.",
-                    variant: "default",
-                });
+        router.post(
+            route('settings.testimonials.reorder'),
+            {
+                testimonials: reorderedData,
             },
-            onError: () => {
-                // Reset to original order on error
-                setReorderedTestimonials([...testimonials]);
-                setIsReordering(false);
-                toast({
-                    title: "Error",
-                    description: "Failed to reorder testimonials. Please try again.",
-                    variant: "destructive",
-                });
-            }
-        });
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    setIsReordering(false);
+                    toast({
+                        title: 'Order Updated',
+                        description: 'Testimonials have been reordered successfully.',
+                        variant: 'default',
+                    });
+                },
+                onError: () => {
+                    // Reset to original order on error
+                    setReorderedTestimonials([...testimonials]);
+                    setIsReordering(false);
+                    toast({
+                        title: 'Error',
+                        description: 'Failed to reorder testimonials. Please try again.',
+                        variant: 'destructive',
+                    });
+                },
+            },
+        );
     };
 
     const cancelReordering = () => {
@@ -152,10 +139,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
 
     const renderRatingStars = (rating: number) => {
         return Array.from({ length: 5 }).map((_, index) => (
-            <Star
-                key={index}
-                className={`h-4 w-4 ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`}
-            />
+            <Star key={index} className={`h-4 w-4 ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`} />
         ));
     };
 
@@ -164,11 +148,9 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
             <Head title="Testimonials Management" />
 
             <div className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                            Testimonials Management
-                        </h1>
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="mb-6 flex items-center justify-between">
+                        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Testimonials Management</h1>
                         <div className="flex space-x-3">
                             {isReordering ? (
                                 <>
@@ -186,7 +168,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                     </Button>
                                     <Button asChild>
                                         <Link href={route('settings.testimonials.create')}>
-                                            <Plus className="h-5 w-5 mr-2" />
+                                            <Plus className="mr-2 h-5 w-5" />
                                             Add Testimonial
                                         </Link>
                                     </Button>
@@ -198,9 +180,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                     <Card>
                         <CardHeader>
                             <CardTitle>All Testimonials</CardTitle>
-                            <CardDescription>
-                                Manage client testimonials that appear on your portfolio website.
-                            </CardDescription>
+                            <CardDescription>Manage client testimonials that appear on your portfolio website.</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Table>
@@ -241,7 +221,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                             )}
                                             <TableCell>
                                                 <div className="flex items-center space-x-3">
-                                                    <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                                                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-100">
                                                         {testimonial.profile_image ? (
                                                             <img
                                                                 src={testimonial.profile_image}
@@ -249,7 +229,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                                                 className="h-full w-full object-cover"
                                                             />
                                                         ) : (
-                                                            <span className="text-gray-500 text-xs">No Image</span>
+                                                            <span className="text-xs text-gray-500">No Image</span>
                                                         )}
                                                     </div>
                                                     <div>
@@ -261,19 +241,13 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                             <TableCell>
                                                 <div className="flex items-center space-x-3">
                                                     {testimonial.company_logo ? (
-                                                        <img
-                                                            src={testimonial.company_logo}
-                                                            alt={testimonial.company}
-                                                            className="h-6 w-auto"
-                                                        />
+                                                        <img src={testimonial.company_logo} alt={testimonial.company} className="h-6 w-auto" />
                                                     ) : null}
                                                     <span>{testimonial.company}</span>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
-                                                <div className="flex">
-                                                    {renderRatingStars(testimonial.rating)}
-                                                </div>
+                                                <div className="flex">{renderRatingStars(testimonial.rating)}</div>
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex items-center space-x-2">
@@ -282,7 +256,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                                         onCheckedChange={() => handleToggleActive(testimonial)}
                                                         disabled={isReordering}
                                                     />
-                                                    <Badge variant={testimonial.is_active ? "success" : "secondary"}>
+                                                    <Badge variant={testimonial.is_active ? 'success' : 'secondary'}>
                                                         {testimonial.is_active ? 'Active' : 'Inactive'}
                                                     </Badge>
                                                 </div>
@@ -298,7 +272,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                                         <DropdownMenuContent align="end">
                                                             <DropdownMenuItem asChild>
                                                                 <Link href={route('settings.testimonials.edit', testimonial.id)}>
-                                                                    <Pencil className="h-4 w-4 mr-2" />
+                                                                    <Pencil className="mr-2 h-4 w-4" />
                                                                     Edit
                                                                 </Link>
                                                             </DropdownMenuItem>
@@ -306,7 +280,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                                                                 onClick={() => setTestimonialToDelete(testimonial)}
                                                                 className="text-red-600"
                                                             >
-                                                                <Trash className="h-4 w-4 mr-2" />
+                                                                <Trash className="mr-2 h-4 w-4" />
                                                                 Delete
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
@@ -328,8 +302,7 @@ const TestimonialsIndex: React.FC<Props> = ({ testimonials }) => {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This will permanently delete the testimonial from {testimonialToDelete?.name}.
-                            This action cannot be undone.
+                            This will permanently delete the testimonial from {testimonialToDelete?.name}. This action cannot be undone.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
