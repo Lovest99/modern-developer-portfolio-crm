@@ -1,0 +1,2 @@
+This is a placeholder for your logo (SVG format).
+Replace this file with your actual logo in SVG format for better scaling.

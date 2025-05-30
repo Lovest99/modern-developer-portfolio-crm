@@ -1,0 +1,178 @@
+/* Safari-specific fixes */
+
+/* Fix for backdrop-filter in Safari */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .backdrop-blur-md,
+  .backdrop-blur-xl,
+  .backdrop-blur-sm,
+  .backdrop-blur-lg,
+  .backdrop-blur {
+    -webkit-backdrop-filter: blur(var(--tw-backdrop-blur));
+    backdrop-filter: blur(var(--tw-backdrop-blur));
+  }
+}
+
+/* Fix for Safari's handling of position:sticky */
+@supports (-webkit-sticky: sticky) or (position: -webkit-sticky) {
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+/* Fix for Safari's handling of grid layout */
+@supports (-webkit-appearance:none) {
+  .grid {
+    display: -ms-grid;
+    display: grid;
+  }
+}
+
+/* Fix for Safari's handling of flex gap */
+@supports not (gap: 1rem) {
+  .flex.gap-4 > * + * {
+    margin-left: 1rem;
+  }
+
+  .flex.flex-col.gap-4 > * + * {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .grid.gap-4 > * {
+    margin: 0.5rem;
+  }
+}
+
+/* Fix for Safari's handling of aspect-ratio */
+@supports not (aspect-ratio: 1/1) {
+  [style*="aspect-ratio"] {
+    position: relative;
+  }
+
+  [style*="aspect-ratio"]::before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% / (var(--aspect-ratio, 1)));
+  }
+
+  [style*="aspect-ratio"] > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Fix for Safari's handling of clip-path */
+@supports (-webkit-clip-path: polygon(0 0)) or (clip-path: polygon(0 0)) {
+  .animate-text-reveal {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* Fix for Safari's handling of gradient animations */
+@supports (-webkit-animation: name) {
+  @-webkit-keyframes gradient-x {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient-x {
+    -webkit-animation: gradient-x 10s ease infinite;
+    animation: gradient-x 10s ease infinite;
+  }
+}
+
+/* Fix for Safari's handling of transform-style: preserve-3d */
+@supports (-webkit-transform-style: preserve-3d) or (transform-style: preserve-3d) {
+  .perspective-1000 {
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+}
+
+/* Fix for Safari's handling of backdrop-filter */
+@supports (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px)) {
+  .bg-white\/80, .dark\:bg-gray-800\/80 {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Fix for Safari's handling of text-fill-color */
+@supports (-webkit-text-fill-color: transparent) {
+  .text-transparent {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-clip-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+/* Fix for Safari's handling of scrollbar styling */
+@supports (-webkit-scrollbar: auto) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.8);
+  }
+}
+
+/* Fix for Safari's handling of filter */
+@supports (-webkit-filter: blur(0)) or (filter: blur(0)) {
+  .blur-3xl, .blur-2xl, .blur-xl, .blur-lg, .blur-md, .blur-sm, .blur {
+    -webkit-filter: blur(var(--tw-blur));
+    filter: blur(var(--tw-blur));
+  }
+}
+
+/* Fix for Safari's handling of mask-image */
+@supports (-webkit-mask-image: url()) or (mask-image: url()) {
+  [style*="mask-image"] {
+    -webkit-mask-image: var(--tw-mask-image);
+    mask-image: var(--tw-mask-image);
+  }
+}
+
+/* Fix for Safari's handling of background-attachment: fixed */
+@supports (-webkit-overflow-scrolling: touch) {
+  .bg-fixed {
+    background-attachment: scroll;
+  }
+}
+
+/* Fix for Safari's handling of min-height: 100vh */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}

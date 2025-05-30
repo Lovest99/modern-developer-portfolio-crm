@@ -1,0 +1,90 @@
+<?php
+
+use App\Http\Controllers\Api\CampaignController;
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\CommunicationController;
+use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\DealController;
+use App\Http\Controllers\Api\NewsletterSubscriberController;
+use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\TimeEntryController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WebsiteContactController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+// Public routes
+Route::post('contacts/submit', [WebsiteContactController::class, 'store']);
+Route::post('newsletter/subscribe', [NewsletterSubscriberController::class, 'store']);
+Route::post('newsletter/confirm', [NewsletterSubscriberController::class, 'confirm']);
+Route::delete('newsletter/unsubscribe/{subscriber}', [NewsletterSubscriberController::class, 'destroy']);
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    // User profile and management
+    Route::get('/user', [UserController::class, 'profile']);
+    Route::put('/user', [UserController::class, 'updateProfile']);
+    Route::apiResource('users', UserController::class);
+
+    // Projects
+    Route::apiResource('projects', ProjectController::class);
+
+    // Tasks
+    Route::apiResource('tasks', TaskController::class);
+    Route::get('my-tasks', [TaskController::class, 'myTasks']);
+
+    // Clients
+    Route::apiResource('clients', ClientController::class);
+    Route::get('clients/statistics', [ClientController::class, 'statistics']);
+
+    // Deals
+    Route::apiResource('deals', DealController::class);
+    Route::get('deals/statistics', [DealController::class, 'statistics']);
+    Route::get('my-deals', [DealController::class, 'myDeals']);
+
+    // Contacts
+    Route::apiResource('contacts', ContactController::class);
+    Route::post('contacts/{contact}/convert-to-client', [ContactController::class, 'convertToClient']);
+
+    // Companies
+    Route::apiResource('companies', CompanyController::class);
+
+    // Communications
+    Route::apiResource('communications', CommunicationController::class);
+    Route::get('my-communications', [CommunicationController::class, 'myCommunications']);
+
+    // Time Entries
+    Route::apiResource('time-entries', TimeEntryController::class);
+    Route::get('my-time-entries', [TimeEntryController::class, 'myTimeEntries']);
+    Route::get('time-entries/current', [TimeEntryController::class, 'current']);
+    Route::post('time-entries/start', [TimeEntryController::class, 'start']);
+    Route::put('time-entries/{timeEntry}/stop', [TimeEntryController::class, 'stop']);
+    Route::get('projects/{project}/time-summary', [TimeEntryController::class, 'projectSummary']);
+
+    // Campaigns
+    Route::apiResource('campaigns', CampaignController::class);
+    Route::get('campaigns/{campaign}/statistics', [CampaignController::class, 'statistics']);
+    Route::post('campaigns/{campaign}/subscribers', [CampaignController::class, 'addSubscribers']);
+    Route::delete('campaigns/{campaign}/subscribers', [CampaignController::class, 'removeSubscribers']);
+
+    // Website Contacts
+    Route::apiResource('website-contacts', WebsiteContactController::class)->except(['store']);
+    Route::get('website-contacts/statistics', [WebsiteContactController::class, 'statistics']);
+
+    // Newsletter Subscribers
+    Route::apiResource('newsletter-subscribers', NewsletterSubscriberController::class)->except(['store', 'destroy']);
+    Route::get('newsletter-subscribers/statistics', [NewsletterSubscriberController::class, 'statistics']);
+});

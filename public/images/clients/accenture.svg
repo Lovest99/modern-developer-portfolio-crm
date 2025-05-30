@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150" height="40" viewBox="0 0 300 75" xmlns="http://www.w3.org/2000/svg">
+  <path d="M150 0L0 75h300L150 0z" fill="#A100FF"/>
+  <path d="M150 15l-120 60h240L150 15z" fill="#FFFFFF"/>
+  <path d="M150 30l-90 45h180L150 30z" fill="#A100FF"/>
+  <path d="M150 45l-60 30h120L150 45z" fill="#FFFFFF"/>
+</svg>

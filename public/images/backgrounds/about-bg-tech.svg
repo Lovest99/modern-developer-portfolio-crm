@@ -1,0 +1,70 @@
+<svg width="1440" height="800" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcfcfc" />
+      <stop offset="100%" stop-color="#f8f8f8" />
+    </linearGradient>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(128, 128, 128, 0.03)" stroke-width="1"/>
+    </pattern>
+
+    <pattern id="dotsPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="rgba(128, 128, 128, 0.05)"/>
+    </pattern>
+
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(124, 58, 237, 0.05)" />
+      <stop offset="100%" stop-color="rgba(124, 58, 237, 0)" />
+    </linearGradient>
+
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(59, 130, 246, 0.05)" />
+      <stop offset="100%" stop-color="rgba(59, 130, 246, 0)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="800" fill="url(#bgGradient)" />
+
+  <!-- Grid Pattern -->
+  <rect width="1440" height="800" fill="url(#gridPattern)" />
+
+  <!-- Dots Pattern -->
+  <rect width="1440" height="800" fill="url(#dotsPattern)" />
+
+  <!-- Abstract Circuit Lines -->
+  <g stroke="rgba(124, 58, 237, 0.07)" stroke-width="1" fill="none">
+    <path d="M100,100 L300,100 L300,300 L500,300 L500,500" />
+    <path d="M1340,700 L1140,700 L1140,500 L940,500 L940,300" />
+    <path d="M100,700 L300,700 L300,500 L500,500" />
+    <path d="M1340,100 L1140,100 L1140,300 L940,300" />
+
+    <!-- Connection Dots -->
+    <circle cx="100" cy="100" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="300" cy="100" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="300" cy="300" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="500" cy="300" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="500" cy="500" r="3" fill="rgba(124, 58, 237, 0.2)" />
+
+    <circle cx="1340" cy="700" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="1140" cy="700" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="1140" cy="500" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="940" cy="500" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="940" cy="300" r="3" fill="rgba(59, 130, 246, 0.2)" />
+
+    <circle cx="100" cy="700" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="300" cy="700" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="300" cy="500" r="3" fill="rgba(124, 58, 237, 0.2)" />
+    <circle cx="500" cy="500" r="3" fill="rgba(124, 58, 237, 0.2)" />
+
+    <circle cx="1340" cy="100" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="1140" cy="100" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="1140" cy="300" r="3" fill="rgba(59, 130, 246, 0.2)" />
+    <circle cx="940" cy="300" r="3" fill="rgba(59, 130, 246, 0.2)" />
+  </g>
+
+  <!-- Gradient Blobs -->
+  <circle cx="200" cy="200" r="150" fill="url(#purpleGradient)" />
+  <circle cx="1240" cy="600" r="180" fill="url(#blueGradient)" />
+</svg>
